@@ -1,17 +1,28 @@
 package gg.uhc.ultrahardcore.api;
 
+import com.google.common.base.Preconditions;
+import com.google.common.base.Strings;
+
+import java.util.regex.Pattern;
+
 public abstract class Scenario
 {
     private boolean isRunning = false;
     private final String id;
     private final String description;
 
+    private static final Pattern validIds = Pattern.compile("^[\\w]+$");
+
     /**
-     * @param id a unique identifier for the scenario
+     * @param id a unique identifier for the scenario, must contain only alphanumeric characters (no whitespace)
      * @param description a short description explaining the scenario effects
      */
     public Scenario(String id, String description)
     {
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(id), "Parameter 'id' must not be null or empty");
+        Preconditions.checkArgument(validIds.matcher(id).matches(), "Parameter 'id' can only contain alphanumeric characters");
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(description), "Parameter 'description' must not be null or empty");
+
         this.id = id;
         this.description = description;
     }

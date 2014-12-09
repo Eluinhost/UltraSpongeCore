@@ -30,6 +30,36 @@ public class ScenarioTest
         assertThat(scenario.getDescription()).isEqualTo("This text doesn't matter, blah blah blah");
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void test_empty_id()
+    {
+        new Scenario("", "Test Description"){};
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void test_null_id()
+    {
+        new Scenario(null, "Test Description"){};
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void test_invalid_format_id()
+    {
+        new Scenario("This ID has spaces in it", "Test Description"){};
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void test_empty_description()
+    {
+        new Scenario("TestScenario", ""){};
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void test_null_description()
+    {
+        new Scenario("TestScenario", null){};
+    }
+
     @Test
     public void test_scenario_enable_disable_and_callbacks()
     {
