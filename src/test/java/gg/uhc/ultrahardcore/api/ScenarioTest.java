@@ -19,26 +19,15 @@ public class ScenarioTest
     @Before
     public void onStartup()
     {
-        scenario = spy(new Scenario()
-        {
-            @Override
-            public String getId()
-            {
-                return "TestScenario";
-            }
-
-            @Override
-            public String getDescription()
-            {
-                return "This text doesn't matter, blah blah blah";
-            }
-        });
+        scenario = spy(new Scenario("TestScenario", "This text doesn't matter, blah blah blah"){});
     }
 
     @Test
-    public void test_scenario_starts_disabled()
+    public void test_scenario_initial_data()
     {
         assertThat(scenario.isRunning()).isFalse();
+        assertThat(scenario.getId()).isEqualTo("TestScenario");
+        assertThat(scenario.getDescription()).isEqualTo("This text doesn't matter, blah blah blah");
     }
 
     @Test
