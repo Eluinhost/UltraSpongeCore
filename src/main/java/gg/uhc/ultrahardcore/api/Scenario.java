@@ -19,7 +19,7 @@ public abstract class Scenario
     /**
      * @return Unique ID of the scenario
      */
-    public String getId()
+    public final String getId()
     {
         return id;
     }
@@ -27,7 +27,7 @@ public abstract class Scenario
     /**
      * @return A short description explaining the scenario
      */
-    public String getDescription()
+    public final String getDescription()
     {
         return description;
     }
@@ -35,12 +35,12 @@ public abstract class Scenario
     /**
      * @return whether the scenario is active or not
      */
-    public boolean isRunning()
+    public final boolean isRunning()
     {
         return isRunning;
     }
 
-    public void setRunning(boolean running)
+    public final void setRunning(boolean running)
     {
         //don't do anything if the status doesnt change
         if(running == isRunning) {
