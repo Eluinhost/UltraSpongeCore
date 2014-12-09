@@ -112,14 +112,23 @@ public class ScenarioTest
         verify(scenario, never()).onDisable();
         verify(scenario, never()).onEnable();
 
-        scenario.setRunning(true);
+        boolean switched = scenario.setRunning(true);
 
+        assertThat(switched).isTrue();
         assertThat(scenario.isRunning()).isTrue();
         verify(scenario, never()).onDisable();
         verify(scenario, times(1)).onEnable();
 
-        scenario.setRunning(false);
+        switched = scenario.setRunning(false);
 
+        assertThat(switched).isTrue();
+        assertThat(scenario.isRunning()).isFalse();
+        verify(scenario, times(1)).onDisable();
+        verify(scenario, times(1)).onEnable();
+
+        switched = scenario.setRunning(false);
+
+        assertThat(switched).isFalse();
         assertThat(scenario.isRunning()).isFalse();
         verify(scenario, times(1)).onDisable();
         verify(scenario, times(1)).onEnable();

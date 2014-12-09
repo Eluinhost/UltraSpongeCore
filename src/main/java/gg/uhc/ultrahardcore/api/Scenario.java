@@ -122,12 +122,13 @@ public abstract class Scenario
      *
      * @see gg.uhc.ultrahardcore.api.ScenarioManager
      * @param running true to enable, false to disable.
+     * @return true if state changed, false otherwise
      */
-    public final void setRunning(boolean running)
+    public final boolean setRunning(boolean running)
     {
         //don't do anything if the status doesnt change
         if(running == isRunning) {
-            return;
+            return false;
         }
 
         isRunning = running;
@@ -137,6 +138,8 @@ public abstract class Scenario
         } else {
             onDisable();
         }
+
+        return true;
     }
 
     /**
