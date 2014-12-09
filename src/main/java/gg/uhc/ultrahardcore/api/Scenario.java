@@ -115,6 +115,14 @@ public abstract class Scenario
         return isRunning;
     }
 
+    /**
+     * Change the running status of this scenario.
+     *
+     * THIS METHOD SHOULD NOT BE CALLED MANUALLY. USE THE SCENARIO MANAGER INSTEAD.
+     *
+     * @see gg.uhc.ultrahardcore.api.ScenarioManager
+     * @param running true to enable, false to disable.
+     */
     public final void setRunning(boolean running)
     {
         //don't do anything if the status doesnt change
