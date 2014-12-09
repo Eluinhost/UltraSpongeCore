@@ -3,8 +3,8 @@ package gg.uhc.ultrahardcore.api;
 public abstract class Scenario
 {
     private boolean isRunning = false;
-    private String id;
-    private String description;
+    private final String id;
+    private final String description;
 
     /**
      * @param id a unique identifier for the scenario
