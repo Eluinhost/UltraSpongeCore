@@ -5,6 +5,7 @@ import gg.uhc.ultrahardcore.api.exception.ScenarioConflictException;
 import gg.uhc.ultrahardcore.api.exception.ScenarioDisableFailedException;
 import gg.uhc.ultrahardcore.api.exception.ScenarioEnableFailedException;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 
 public interface ScenarioManager
@@ -16,7 +17,7 @@ public interface ScenarioManager
      * @param scenario the scenario to register
      * @throws ScenarioConflictException when scenario id conflicts with existing scenario
      */
-    void registerScenario(Scenario scenario) throws ScenarioConflictException;
+    void registerScenario(@Nonnull Scenario scenario) throws ScenarioConflictException;
 
     /**
      * Fetches a scenario by it's ID if it exists
@@ -24,7 +25,8 @@ public interface ScenarioManager
      * @param id the unique id of the scenario
      * @return the given scenario if it exists
      */
-    Optional<Scenario> getScenario(String id);
+    @Nonnull
+    Optional<Scenario> getScenario(@Nonnull String id);
 
     /**
      * Enables the scenario (and any sub-scenarios it requires)
@@ -33,7 +35,8 @@ public interface ScenarioManager
      * @return a list of scenarios that were enabled startng the scenario (including the chosen one)
      * @throws ScenarioEnableFailedException when the scenario is unable to be started
      */
-    List<Scenario> enableScenario(String id) throws ScenarioEnableFailedException;
+    @Nonnull
+    List<Scenario> enableScenario(@Nonnull String id) throws ScenarioEnableFailedException;
 
     /**
      * Disables the scenario (and any scenarios that started up as a side effect of this one starting)
@@ -42,7 +45,9 @@ public interface ScenarioManager
      * @return a list of scenarios that were enabled startng the scenario (including the chosen one)
      * @throws ScenarioDisableFailedException when the scenario is unable to be stopped
      */
-    List<Scenario> disableScenario(String id) throws ScenarioDisableFailedException;
+    @Nonnull
+    List<Scenario> disableScenario(@Nonnull String id) throws ScenarioDisableFailedException;
 
+    @Nonnull
     List<Scenario> getScenarios();
 }
