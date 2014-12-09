@@ -1,6 +1,5 @@
 package gg.uhc.ultrahardcore.api;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.modules.junit4.PowerMockRunner;
@@ -15,17 +14,11 @@ import static org.powermock.api.mockito.PowerMockito.spy;
 @RunWith(PowerMockRunner.class)
 public class ScenarioTest
 {
-    private Scenario scenario;
-
-    @Before
-    public void onStartup()
-    {
-        scenario = spy(new Scenario("TestScenario", "This text doesn't matter, blah blah blah"){});
-    }
-
     @Test
     public void test_scenario_initial_data()
     {
+        Scenario scenario = spy(new Scenario("TestScenario", "This text doesn't matter, blah blah blah"){});
+
         assertThat(scenario.isRunning()).isFalse();
         assertThat(scenario.getId()).isEqualTo("TestScenario");
         assertThat(scenario.getDescription()).isEqualTo("This text doesn't matter, blah blah blah");
@@ -108,6 +101,8 @@ public class ScenarioTest
     @Test
     public void test_scenario_enable_disable_and_callbacks()
     {
+        Scenario scenario = spy(new Scenario("TestScenario", "This text doesn't matter, blah blah blah"){});
+
         assertThat(scenario.isRunning()).isFalse();
         verify(scenario, never()).onDisable();
         verify(scenario, never()).onEnable();
