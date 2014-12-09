@@ -5,10 +5,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.modules.junit4.PowerMockRunner;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 import static org.powermock.api.mockito.PowerMockito.spy;
 
 @RunWith(PowerMockRunner.class)
@@ -58,6 +59,50 @@ public class ScenarioTest
     public void test_null_description()
     {
         new Scenario("TestScenario", null){};
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void test_mixed_dependency_type()
+    {
+        Set<String> hard = new HashSet<String>();
+        hard.add("TestScenario2");
+
+        Set<String> soft = new HashSet<String>();
+        soft.add("TestScenario2");
+
+        new Scenario("TestScenario", "Test Description", hard, soft){};
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void test_self_dependency()
+    {
+        Set<String> deps = new HashSet<String>();
+        deps.add("TestScenario");
+
+        new Scenario("TestScenario", "Test Description", deps, new HashSet<String>()){};
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void test_self_dependency_soft()
+    {
+        Set<String> deps = new HashSet<String>();
+        deps.add("TestScenario");
+
+        new Scenario("TestScenario", "Test Description", new HashSet<String>(), deps){};
+    }
+
+    @Test
+    public void test_empty_dependencies_when_null()
+    {
+        Scenario sc = new Scenario("id", "description"){};
+
+        assertThat(sc.getDependencies()).isEmpty();
+        assertThat(sc.getSoftDependencies()).isEmpty();
+
+        sc = new Scenario("id", "description", null, null){};
+
+        assertThat(sc.getDependencies()).isEmpty();
+        assertThat(sc.getSoftDependencies()).isEmpty();
     }
 
     @Test
