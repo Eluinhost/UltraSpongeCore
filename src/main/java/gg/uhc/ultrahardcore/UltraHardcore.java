@@ -1,6 +1,5 @@
 package gg.uhc.ultrahardcore;
 
-import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import gg.uhc.ultrahardcore.api.ScenarioManager;
@@ -23,11 +22,6 @@ public class UltraHardcore
     @Subscribe
     public void onPreInit(PreInitializationEvent event)
     {
-        // create our GUICE injector for intializing the plugin
-        Injector injector = Guice.createInjector(new DefaultModule(event.getGame()));
-
-        injector.injectMembers(this);
-
         //TODO read config for default scenarios to load
     }
 
@@ -47,6 +41,14 @@ public class UltraHardcore
     protected void setScenarioManager(@Nonnull ScenarioManager manager)
     {
         scenarioManager = manager;
+    }
+
+    @Inject
+    protected void setParentInjector(Injector injector)
+    {
+        Injector pluginInjector = injector.createChildInjector(new DefaultModule());
+
+        scenarioManager = pluginInjector.getInstance(ScenarioManager.class);
     }
 
     /**
