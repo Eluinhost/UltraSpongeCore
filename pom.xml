@@ -21,7 +21,7 @@
     <properties>
         <project.builder.sourceEncoding>UTF-8</project.builder.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <sponge.version>1.0</sponge.version>
+        <sponge.version>1.1-SNAPSHOT</sponge.version>
     </properties>
 
     <dependencies>
