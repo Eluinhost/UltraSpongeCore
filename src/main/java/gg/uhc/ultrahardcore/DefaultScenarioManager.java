@@ -61,4 +61,10 @@ class DefaultScenarioManager implements ScenarioManager
     {
         return Lists.newArrayList(scenarios.values());
     }
+
+    @Override
+    public boolean hasScenario(String id)
+    {
+        return scenarios.containsKey(id);
+    }
 }
