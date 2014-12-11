@@ -7,6 +7,8 @@ import org.spongepowered.api.event.state.InitializationEvent;
 import org.spongepowered.api.event.state.LoadCompleteEvent;
 import org.spongepowered.api.event.state.PreInitializationEvent;
 import org.spongepowered.api.plugin.Plugin;
+import org.spongepowered.api.service.config.DefaultConfig;
+import org.spongepowered.api.util.config.ConfigFile;
 import org.spongepowered.api.util.event.Subscribe;
 
 import javax.annotation.Nonnull;
@@ -18,11 +20,12 @@ public class UltraHardcore
 {
 
     private ScenarioManager scenarioManager;
+    private ConfigFile config;
 
     @Subscribe
     public void onPreInit(PreInitializationEvent event)
     {
-        //TODO read config for default scenarios to load
+        //TODO load and save defaults from JAR if config file doesn't exist
     }
 
     @Subscribe
@@ -35,6 +38,12 @@ public class UltraHardcore
     public void onLoadComplete(LoadCompleteEvent event)
     {
         //TODO enable relevant scenarios where possible
+    }
+
+    @Inject
+    protected void setDefaultConfig(@DefaultConfig(sharedRoot = false) ConfigFile file)
+    {
+        config = file;
     }
 
     @Inject
