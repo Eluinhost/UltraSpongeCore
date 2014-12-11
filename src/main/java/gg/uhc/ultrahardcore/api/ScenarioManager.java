@@ -50,4 +50,6 @@ public interface ScenarioManager
 
     @Nonnull
     List<Scenario> getScenarios();
+
+    boolean hasScenario(String id);
 }
