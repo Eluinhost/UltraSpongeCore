@@ -52,4 +52,12 @@ public interface ScenarioManager
     List<Scenario> getScenarios();
 
     boolean hasScenario(String id);
+
+    /**
+     * Checks if the given scenario is running. The scenario must exist and can be checked via {@link #hasScenario}
+     *
+     * @param id the scenario id
+     * @return whether the scenario is running or not
+     */
+    boolean isEnabled(String id);
 }
