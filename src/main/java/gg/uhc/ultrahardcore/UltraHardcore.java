@@ -45,8 +45,13 @@ public class UltraHardcore
         List<String> enabled = config.getStringList("enabled at start");
 
         for (String current : enabled) {
-            if (current == null || scenarioManager.hasScenario(current)) {
-                logger.warn("Scenario {} was flagged to be enabled on start, but was not found, skipping enable.", current);
+            if(current == null) {
+                logger.warn("null scenario was flagged to be enabled on start, skipping.");
+                continue;
+            }
+
+            if (!scenarioManager.hasScenario(current)) {
+                logger.info("Scenario {} was flagged to be enabled on start, but was not found.", current);
                 continue;
             }
 
