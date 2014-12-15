@@ -2,42 +2,40 @@ package gg.uhc.ultrahardcore;
 
 import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import gg.uhc.ultrahardcore.api.Scenario;
 import gg.uhc.ultrahardcore.api.ScenarioManager;
 import gg.uhc.ultrahardcore.api.exception.ScenarioConflictException;
 import gg.uhc.ultrahardcore.api.exception.ScenarioDisableFailedException;
 import gg.uhc.ultrahardcore.api.exception.ScenarioEnableFailedException;
+import gg.uhc.ultrahardcore.predicate.ScenarioIdPredicate;
 
 import javax.annotation.Nonnull;
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.List;
 
 class DefaultScenarioManager implements ScenarioManager
 {
-    /**
-     * Map of scenario name -> Scenario
-     */
-    private final HashMap<String, Scenario> scenarios = Maps.newHashMap();
+    private final List<Scenario> scenarios = Lists.newArrayList();
 
     @Override
     public void registerScenario(@Nonnull Scenario scenario) throws ScenarioConflictException
     {
         String scenarioId = scenario.getId();
 
-        if(scenarios.containsKey(scenarioId)) {
+        if(hasScenario(scenarioId)) {
             throw new ScenarioConflictException("Scenario ID '" + scenarioId + "' is already in use");
         }
 
-        scenarios.put(scenarioId, scenario);
+        scenarios.add(scenario);
     }
 
     @Nonnull
     @Override
     public Optional<Scenario> getScenario(@Nonnull String id)
     {
-        return Optional.fromNullable(scenarios.get(id));
+        return Iterables.tryFind(scenarios, new ScenarioIdPredicate(id));
     }
 
     @Nonnull
@@ -60,20 +58,21 @@ class DefaultScenarioManager implements ScenarioManager
     @Override
     public List<Scenario> getScenarios()
     {
-        return Lists.newArrayList(scenarios.values());
+        return Collections.unmodifiableList(scenarios);
     }
 
     @Override
     public boolean hasScenario(String id)
     {
-        return scenarios.containsKey(id);
+        return Iterables.indexOf(scenarios, new ScenarioIdPredicate(id)) != -1;
     }
 
     @Override
     public boolean isEnabled(String id)
     {
-        Preconditions.checkArgument(hasScenario(id));
+        Optional<Scenario> scenario = getScenario(id);
+        Preconditions.checkArgument(scenario.isPresent());
 
-        return scenarios.get(id).isRunning();
+        return scenario.get().isRunning();
     }
 }
